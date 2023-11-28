@@ -1,6 +1,7 @@
 #include <iostream>
 
-int main() {
+int main()
+{
     int size;
 
     std::cout << "Enter the size: ";
@@ -35,7 +36,7 @@ int main() {
 
     std::cout << "d." << std::endl;
     for (int i = 0; i < size; ++i) {
-       
+
         for (int j = 0; j < i; ++j) {
             std::cout << " ";
         }
@@ -49,11 +50,9 @@ int main() {
 
     std::cout << "e." << std::endl;
     for (int i = 1; i <= size; ++i) {
-        for (int j = 1; j <= size - i; ++j) {
-            std::cout << " ";
-        }
+        int startValue = (i % 2 == 0) ? 1 : 0;
         for (int k = 1; k <= i; ++k) {
-            std::cout << (k % 2);
+            std::cout << (startValue + (k % 2)) % 2;
         }
         std::cout << std::endl;
     }
