@@ -31,9 +31,11 @@ int main() {
             }
             else if (userGuess > 50) {
                 std::cout << "Your number is too high. Please enter a number between 0 and 50." << std::endl;
+                continue;
             }
             else if (userGuess < -1) {
                 std::cout << "Your number is too less. Please enter a number between 0 and 50." << std::endl;
+                continue;
             }
             if (userGuess == targetNumber) {
                 std::cout << "Congratulations! You guessed the correct number in " << attempts << " attempts." << std::endl;
