@@ -24,14 +24,14 @@ void countNumbers(int n) {
 
 int factorialWithLoop(int count) {
     int result = 1;
-    for (int i = 1; i <= count; ++i) {
+    for (int i = 2; i <= count; ++i) {
         result *= i;
     }
     return result;
 }
 
 int factorialWithRecursion(int count) {
-    if (count == 0 || count == 1) {
+    if (count <= 1) {
         return 1;
     }
     else {
@@ -60,9 +60,9 @@ void printNaturalNumbersDescendingRecursion(int count) {
     }
 }
 
-void printNaturalNumbersAscendingRecursion(int count, int current) {
-    if (current <= count) {
-        std::cout << current << " ";
-        printNaturalNumbersAscendingRecursion(count, current + 1);
+void printNaturalNumbersAscendingRecursion(int count) {
+    if (count >= 1) {
+        std::cout << count << " ";
+        printNaturalNumbersAscendingRecursion(count + 1);
     }
 }
