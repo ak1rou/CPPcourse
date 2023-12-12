@@ -60,9 +60,12 @@ void printNaturalNumbersDescendingRecursion(int count) {
     }
 }
 
-void printNaturalNumbersAscendingRecursion(int count) {
-    if (count >= 1) {
-        std::cout << count << " ";
-        printNaturalNumbersAscendingRecursion(count + 1);
+void printNaturalNumbersAscendingRecursion(int count)
+{
+    if (count >= 1)
+    {
+        printNaturalNumbersAscendingRecursion(count - 1);
+        std::cout << count;
     }
 }
+
