@@ -1,8 +1,8 @@
 #pragma once
 
-void swap(int& a, int& b);
+void swapByReferences(int& a, int& b);
 
-void swap(int* a, int* b);
+void swapByPointers(int* a, int* b);
 
 bool calculateSum(const double* arr, int arrSize, double& sum);
 

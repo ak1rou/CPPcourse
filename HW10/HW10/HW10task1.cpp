@@ -1,7 +1,7 @@
 #include <iostream>
 #include "funcs.h"
 
-int main3()
+int main()
 {
     int x, y;
 
@@ -11,15 +11,13 @@ int main3()
     std::cout << "Enter the second integer: ";
     std::cin >> y;
 
- 
-        swap(x, y);
+    swapByReferences(x, y);
 
-        std::cout << "Swap using references: x = " << x << ", y = " << y << std::endl;
-    
-     
-        swap(x, y);
+    std::cout << "Swap using references: x = " << x << ", y = " << y << std::endl;
 
-        std::cout << "Swap using pointers: x = " << x << ", y = " << y << std::endl;
-    
+    swapByPointers(&x, &y);
+
+    std::cout << "Swap using pointers: x = " << x << ", y = " << y << std::endl;
+
     return 0;
 }

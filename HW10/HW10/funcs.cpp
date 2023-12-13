@@ -1,13 +1,13 @@
 #include <iostream>
 
-void swap(int& a, int& b)
+void swapByReferences(int& a, int& b)
 {
     int temp = a;
     a = b;
     b = temp;
 }
 
-void swap(int* a, int* b)
+void swapByPointers(int* a, int* b)
 {
     int temp = *a;
     *a = *b;
