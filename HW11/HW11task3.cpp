@@ -5,7 +5,7 @@ const int COLUMNS = 4;
 
 void traverseArray1(int arr[ROWS][COLUMNS])
 {
-    for (int col = 0; col < COLUMNS; ++col)
+    for (int col = COLUMNS - 1; col >= 0; --col)
     {
         for (int row = 0; row < ROWS; ++row)
         {
