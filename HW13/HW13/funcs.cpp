@@ -123,7 +123,8 @@ bool isSameDay(const std::string& storedDate, const std::string& currentDate)
 
 void playWordleGame(const std::string& secretWord, bool& wordOfTheDayGuessed, std::string& storedDate)
 {
-    std::string todayDate = getTodayDate();
+    int attempts = 1;
+   std::string todayDate = getTodayDate();
 
     if (isSameDay(storedDate, todayDate))
     {
@@ -134,20 +135,19 @@ void playWordleGame(const std::string& secretWord, bool& wordOfTheDayGuessed, st
         }
     }
 
-    int attempts = 1;
     std::string guessedWord(secretWord.length(), '*');
     std::cout << "RESULT: " << guessedWord << std::endl;
 
     while (true)
     {
         std::string userGuess;
-        std::cout << "ENTER: ";
+        std::cout <<"ENTER: ";
         std::cin >> userGuess;
 
         if (userGuess == "0")
         {
             std::cout << "Exiting the game...\n";
-            return;
+            break;
         }
 
         if (userGuess.length() != secretWord.length())
@@ -162,11 +162,9 @@ void playWordleGame(const std::string& secretWord, bool& wordOfTheDayGuessed, st
         {
             wordOfTheDayGuessed = true;
             saveWordOfTheDayStatus(wordOfTheDayGuessed, todayDate);
-            if (userGuess == secretWord)
-            {
-                std::cout << "That's right!" << std::endl;
-                std::cout << "You made " << attempts << " tries!" << std::endl;
-            }
+
+            std::cout << "That's right!" << std::endl;
+            std::cout << "You made " << attempts << " tries!" << std::endl;
             break;
         }
         else

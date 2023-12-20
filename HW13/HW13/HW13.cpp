@@ -25,27 +25,14 @@ int main()
         case 1:
         {
             std::string wordOfTheDay = getRandomWord(wordDatabase);
-            if (!wordOfTheDay.empty())
-            {
-                playWordleGame(wordOfTheDay, wordOfTheDayGuessed, storedDate);
-            }
-            else
-            {
-                std::cout << "Already found. Come back tomorrow!" << std::endl;
-            }
+            playWordleGame(wordOfTheDay, wordOfTheDayGuessed, storedDate);
         }
         break;
         case 2:
         {
             std::string randomWord = getRandomWord(wordDatabase);
-            if (!randomWord.empty())
-            {
-                playWordleGame(randomWord, wordOfTheDayGuessed = false, storedDate);
-            }
-            else
-            {
-                std::cout << "No more words in the database. Come back tomorrow!" << std::endl;
-            }
+            playWordleGame(randomWord, wordOfTheDayGuessed = false, storedDate);
+
         }
         break;
         case 0:
