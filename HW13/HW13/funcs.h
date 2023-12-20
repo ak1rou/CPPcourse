@@ -21,7 +21,9 @@ std::string getRandomWord(const std::vector<std::string>& wordDatabase);
 
 void saveWordOfTheDayStatus(bool wordOfTheDayGuessed, const std::string& todayDate);
 
-bool loadWordOfTheDayStatus(bool& wordOfTheDayGuessed, std::string& storedDate);
+bool checkWordOfTheDayGuessedInSession();
+
+bool loadWordOfTheDayStatus(bool& wordOfTheDayGuessed, std::string& storedDate, bool& wordOfTheDayGuessedInSession);
 
 std::string getTodayDate();
 

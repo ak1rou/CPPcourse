@@ -64,17 +64,38 @@ void saveWordOfTheDayStatus(bool wordOfTheDayGuessed, const std::string& todayDa
     }
 }
 
-bool loadWordOfTheDayStatus(bool& wordOfTheDayGuessed, std::string& storedDate)
+bool checkWordOfTheDayGuessedInSession()
+{
+    std::ifstream file(WORD_OF_THE_DAY_FILE);
+    if (file.is_open())
+    {
+        bool wordOfTheDayGuessedInSession;
+        std::string storedDate;
+        file >> std::boolalpha >> wordOfTheDayGuessedInSession >> storedDate;
+        file.close();
+        return wordOfTheDayGuessedInSession;
+    }
+
+    return false;
+}
+
+bool loadWordOfTheDayStatus(bool& wordOfTheDayGuessed, std::string& storedDate, bool& wordOfTheDayGuessedInSession)
 {
     std::ifstream file(WORD_OF_THE_DAY_FILE);
     if (file.is_open())
     {
         file >> std::boolalpha >> wordOfTheDayGuessed >> storedDate;
         file.close();
+
+        wordOfTheDayGuessedInSession = false;
+
         return true;
     }
+
+    wordOfTheDayGuessedInSession = false;
     return false;
 }
+
 
 std::string getTodayDate()
 {

@@ -7,8 +7,9 @@ int main()
     std::string storedDate;
     wordDatabase = loadWordDatabase();
     bool wordOfTheDayGuessed;
+    bool wordOfTheDayGuessedInSession = false;
     wordDatabase = loadWordDatabase();
-    bool loadedStatus = loadWordOfTheDayStatus(wordOfTheDayGuessed, storedDate);
+    bool loadedStatus = loadWordOfTheDayStatus(wordOfTheDayGuessed, storedDate, wordOfTheDayGuessedInSession);
 
     while (true)
     {
@@ -24,15 +25,22 @@ int main()
         {
         case 1:
         {
-            std::string wordOfTheDay = getRandomWord(wordDatabase);
-            playWordleGame(wordOfTheDay, wordOfTheDayGuessed, storedDate);
+            if (wordOfTheDayGuessedInSession)
+            {
+                std::cout << "Word of the day has already been guessed. Come back tomorrow!" << std::endl;
+            }
+            else
+            {
+                std::string wordOfTheDay = getRandomWord(wordDatabase);
+                playWordleGame(wordOfTheDay, wordOfTheDayGuessed, storedDate);
+                wordOfTheDayGuessedInSession = true;
+            }
         }
         break;
         case 2:
         {
             std::string randomWord = getRandomWord(wordDatabase);
             playWordleGame(randomWord, wordOfTheDayGuessed = false, storedDate);
-
         }
         break;
         case 0:
