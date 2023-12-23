@@ -1,4 +1,4 @@
-#include <iostream>
+?#include <iostream>
 
 void bubbleSort(int arr[], int size)
 {
@@ -15,8 +15,6 @@ void bubbleSort(int arr[], int size)
 
 const int ROWS = 3;
 const int COLUMNS = 4;
-
-enum class SortingDirection { ByRows, ByColumns };
 
 int partition(int arr[], int start, int end) {
     int pivot = arr[start];
