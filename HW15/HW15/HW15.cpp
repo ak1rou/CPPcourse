@@ -1,17 +1,18 @@
 #include "funcs.h"
 
+const int kArraySize = 5;
+
 int main()
 {
-    const int arraySize = 5;
-    Student students[arraySize];
+    Student students[kArraySize];
 
-    for (int i = 0; i < arraySize; ++i)
+    for (int i = 0; i < kArraySize; ++i)
     {
         std::cout << "Enter the name of student " << i + 1 << ": ";
         std::cin >> students[i].name;
 
-        std::cout << "Enter grades for " << students[i].name << " (4 grades): ";
-        for (int j = 0; j < 4; ++j) 
+        std::cout << "Enter grades for " << students[i].name << " (" << kNumGrades << " grades): ";
+        for (int j = 0; j < kNumGrades; ++j)
         {
             std::cin >> students[i].marks[j];
         }
@@ -27,18 +28,20 @@ int main()
         switch (choice)
         {
         case 1:
-            std::cout << "Number of students with average grade > 75%: " << countStudentsAboveAverage(students, arraySize) << "\n";
+        {
+            std::cout << "Number of students with average grade > 75%: " << countStudentsAboveAverage(students, kArraySize) << "\n";
             break;
+        }
         case 2:
         {
-            Student* topStudent = getTopStudent(students, arraySize);
+            Student* topStudent = getTopStudent(students, kArraySize);
             std::cout << "Top-performing student: " << topStudent->name << " with an average grade of " << calculateAverage(*topStudent) << "\n";
             break;
         }
         case 3:
-            sortStudentsByAverage(students, arraySize);
+            sortStudentsByAverage(students, kArraySize);
             std::cout << "Sorted students by average grade:\n";
-            for (int i = 0; i < arraySize; ++i)
+            for (int i = 0; i < kArraySize; ++i)
             {
                 std::cout << students[i].name << ": " << calculateAverage(students[i]) << "\n";
             }
@@ -49,8 +52,7 @@ int main()
         default:
             std::cout << "Invalid choice. Please enter a valid option.\n";
         }
-    }
-    while (choice != 0);
+    } while (choice != 0);
 
     return 0;
 }

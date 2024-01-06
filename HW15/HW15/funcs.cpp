@@ -3,18 +3,18 @@
 double calculateAverage(const Student& student)
 {
     int sum = 0;
-    for (int i = 0; i < 4; ++i)
+    for (int i = 0; i < kNumGrades; ++i)
     {
         sum += student.marks[i];
     }
-    return static_cast<double>(sum) / 4.0;
+    return static_cast<double>(sum) / kNumGrades;
 }
 
 void sortStudentsByAverage(Student students[], int size)
 {
     std::sort(students, students + size, [](const Student& a, const Student& b)
         {
-        return calculateAverage(a) > calculateAverage(b);
+            return calculateAverage(a) > calculateAverage(b);
         });
 }
 
@@ -25,23 +25,28 @@ Student* getTopStudent(Student students[], int size)
         return nullptr;
     }
 
+    double topAverage = calculateAverage(students[0]);
     Student* topStudent = &students[0];
+
     for (int i = 1; i < size; ++i)
     {
-        if (calculateAverage(students[i]) > calculateAverage(*topStudent))
+        double currentAverage = calculateAverage(students[i]);
+        if (currentAverage > topAverage)
         {
+            topAverage = currentAverage;
             topStudent = &students[i];
         }
     }
+
     return topStudent;
 }
 
-int countStudentsAboveAverage(Student students[], int size)
+int countStudentsAboveAverage(Student students[], int size, double threshold)
 {
     int count = 0;
     for (int i = 0; i < size; ++i)
     {
-        if (calculateAverage(students[i]) > 75.0)
+        if (calculateAverage(students[i]) > threshold)
         {
             ++count;
         }
