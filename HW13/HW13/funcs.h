@@ -9,8 +9,8 @@
 #include <map>
 #include <string>
 
-extern const std::string WORD_DATABASE_FILE;
-extern const std::string WORD_OF_THE_DAY_FILE;
+enum class UserChoice { WordOfDay, RandomWord, Exit };
+
 extern std::vector<std::string> wordDatabase;
 
 std::vector<std::string> loadWordDatabase();
@@ -32,3 +32,5 @@ bool checkGuess(const std::string& secretWord, const std::string& guessedWord, b
 bool isSameDay(const std::string& storedDate, const std::string& currentDate);
 
 void playWordleGame(const std::string& secretWord, bool& wordOfTheDayGuessed, std::string& storedDate);
+
+UserChoice convertIntToChoice(int rawInput);

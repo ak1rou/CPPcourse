@@ -64,21 +64,6 @@ void saveWordOfTheDayStatus(bool wordOfTheDayGuessed, const std::string& todayDa
     }
 }
 
-bool checkWordOfTheDayGuessedInSession()
-{
-    std::ifstream file(WORD_OF_THE_DAY_FILE);
-    if (file.is_open())
-    {
-        bool wordOfTheDayGuessedInSession;
-        std::string storedDate;
-        file >> std::boolalpha >> wordOfTheDayGuessedInSession >> storedDate;
-        file.close();
-        return wordOfTheDayGuessedInSession;
-    }
-
-    return false;
-}
-
 bool loadWordOfTheDayStatus(bool& wordOfTheDayGuessed, std::string& storedDate, bool& wordOfTheDayGuessedInSession)
 {
     std::ifstream file(WORD_OF_THE_DAY_FILE);
@@ -111,30 +96,57 @@ bool checkGuess(const std::string& secretWord, const std::string& guessedWord, b
     std::transform(upperSecretWord.begin(), upperSecretWord.end(), upperSecretWord.begin(), ::toupper);
 
     std::string displayResult(secretWord.length(), '*');
-    bool correctGuess = true;
 
-    for (std::size_t i = 0; i < secretWord.length(); ++i)
+    bool fullyGuessed = true;
+
+    std::vector<std::size_t> matchedPositions(secretWord.length(), std::string::npos);
+
+    for (std::size_t i = 0; i < guessedWord.length(); ++i)
     {
         char guessedChar = std::toupper(guessedWord[i]);
 
-        if (upperSecretWord[i] == guessedChar)
+        auto secretIt = std::find(upperSecretWord.begin(), upperSecretWord.end(), guessedChar);
+
+        while (secretIt != upperSecretWord.end())
         {
-            displayResult[i] = std::toupper(secretWord[i]);
+            std::size_t position = std::distance(upperSecretWord.begin(), secretIt);
+
+            if (matchedPositions[position] == std::string::npos)
+            {
+                if (i == position)
+                {
+                    displayResult[position] = guessedChar;
+                }
+                else
+                {
+                    fullyGuessed = false;
+                    displayResult[i] = std::tolower(guessedChar);
+                }
+
+                matchedPositions[position] = i;
+                break;
+            }
+            else
+            {
+                secretIt = std::find(secretIt + 1, upperSecretWord.end(), guessedChar);
+            }
         }
-        else if (upperSecretWord.find(guessedChar) != std::string::npos)
+
+        if (secretIt == upperSecretWord.end())
         {
-            displayResult[i] = std::tolower(guessedChar);
-            correctGuess = false;
-        }
-        else
-        {
-            correctGuess = false;
+            fullyGuessed = false;
         }
     }
 
     std::cout << "RESULT: " << displayResult << std::endl;
 
-    return correctGuess;
+    return fullyGuessed;
+
+    if (fullyGuessed)
+    {
+        std::cout << "That's right!" << std::endl;
+        std::cout << "You made " << attempts << " tries!" << std::endl;
+    }
 }
 
 bool isSameDay(const std::string& storedDate, const std::string& currentDate)
@@ -145,7 +157,7 @@ bool isSameDay(const std::string& storedDate, const std::string& currentDate)
 void playWordleGame(const std::string& secretWord, bool& wordOfTheDayGuessed, std::string& storedDate)
 {
     int attempts = 1;
-   std::string todayDate = getTodayDate();
+    std::string todayDate = getTodayDate();
 
     if (isSameDay(storedDate, todayDate))
     {
@@ -162,7 +174,7 @@ void playWordleGame(const std::string& secretWord, bool& wordOfTheDayGuessed, st
     while (true)
     {
         std::string userGuess;
-        std::cout <<"ENTER: ";
+        std::cout << "ENTER: ";
         std::cin >> userGuess;
 
         if (userGuess == "0")
@@ -192,5 +204,20 @@ void playWordleGame(const std::string& secretWord, bool& wordOfTheDayGuessed, st
         {
             attempts++;
         }
+    }
+}
+
+UserChoice convertIntToChoice(int rawInput)
+{
+    switch (rawInput)
+    {
+    case 1:
+        return UserChoice::WordOfDay;
+    case 2:
+        return UserChoice::RandomWord;
+    case 0:
+        return UserChoice::Exit;
+    default:
+        return UserChoice::Exit;
     }
 }

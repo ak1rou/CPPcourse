@@ -21,9 +21,11 @@ int main()
         int choice;
         std::cin >> choice;
 
-        switch (choice)
+        UserChoice userChoice = convertIntToChoice(choice);
+
+        switch (userChoice)
         {
-        case 1:
+        case UserChoice::WordOfDay:
         {
             if (wordOfTheDayGuessedInSession)
             {
@@ -37,13 +39,13 @@ int main()
             }
         }
         break;
-        case 2:
+        case UserChoice::RandomWord:
         {
             std::string randomWord = getRandomWord(wordDatabase);
             playWordleGame(randomWord, wordOfTheDayGuessed = false, storedDate);
         }
         break;
-        case 0:
+        case UserChoice::Exit:
             std::cout << "Thank you for playing! Goodbye)" << std::endl;
             return 0;
         default:
