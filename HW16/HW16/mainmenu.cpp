@@ -38,7 +38,7 @@ PlayerClass choosePlayerClass() {
     } while (true);
 }
 
-Weapon* createWeapon() {
+std::unique_ptr<Weapon> createWeapon() {
     std::string name;
     int damage, range;
 
@@ -53,7 +53,7 @@ Weapon* createWeapon() {
         std::cin >> range;
 
         if (damage >= 1 && range >= 2) {
-            return new Weapon(name, damage, range);
+            return std::make_unique<Weapon>(name, damage, range);
         }
         else {
             std::cout << "Invalid choice. Please enter valid values for damage and range.\n";
@@ -63,21 +63,34 @@ Weapon* createWeapon() {
     } while (true);
 }
 
-void handleAddPlayer(std::vector<Player>& players, Team& direTeam, Team& radiantTeam)
-{
-    std::string playerName;
-    int playerHealth;
-    PlayerClass playerClass;
-    Weapon* playerWeapon = nullptr;
+std::unique_ptr<Player> createPlayer(const std::string& playerName, int playerHealth, PlayerClass playerClass, Weapon* playerWeapon) {
+    std::unique_ptr<Player> newPlayer = std::make_unique<Player>(playerName, playerHealth, playerClass);
 
-    std::cout << "Enter player name: ";
-    std::cin >> playerName;
+    if (playerWeapon) {
+        newPlayer->setWeapon(playerWeapon);
+    }
 
-    std::cout << "Enter player health: ";
-    std::cin >> playerHealth;
+    return newPlayer;
+}
 
-    playerClass = choosePlayerClass();
+bool askForWeapon() {
+    int weaponChoice;
+    do {
+        std::cout << "Do you want to give a weapon to the player? (1. Yes, 2. No): ";
+        std::cin >> weaponChoice;
 
+        if (std::cin.fail() || (weaponChoice != 1 && weaponChoice != 2)) {
+            std::cout << "Invalid choice. Please enter a valid option (1 or 2).\n";
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        }
+        else {
+            return weaponChoice == 1;
+        }
+    } while (true);
+}
+
+Team* chooseTeam(Team& direTeam, Team& radiantTeam) {
     int teamChoice;
     do {
         std::cout << "Choose team for the player (1. Dire, 2. Radiant): ";
@@ -93,34 +106,33 @@ void handleAddPlayer(std::vector<Player>& players, Team& direTeam, Team& radiant
         }
     } while (true);
 
-    Team& selectedTeam = (teamChoice == 1) ? direTeam : radiantTeam;
+    return (teamChoice == 1) ? &direTeam : &radiantTeam;
+}
 
-    int weaponChoice;
-    do {
-        std::cout << "Do you want to give a weapon to the player? (1. Yes, 2. No): ";
-        std::cin >> weaponChoice;
+void handleAddPlayer(std::vector<Player>& players, Team& direTeam, Team& radiantTeam) {
+    std::string playerNameInput;
+    int playerHealthInput;
+    PlayerClass playerClassInput;
+    std::unique_ptr<Weapon> playerWeapon;
 
-        if (std::cin.fail() || (weaponChoice != 1 && weaponChoice != 2)) {
-            std::cout << "Invalid choice. Please enter a valid option (1 or 2).\n";
-            std::cin.clear();
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-        }
-        else {
-            break;
-        }
-    } while (true);
+    Team* selectedTeam = chooseTeam(direTeam, radiantTeam);
 
-    if (weaponChoice == 1) {
+    if (askForWeapon()) {
         playerWeapon = createWeapon();
     }
 
-    Player* newPlayer = new Player(playerName, playerHealth, playerClass);
-    if (playerWeapon) {
-        newPlayer->setWeapon(playerWeapon);
-    }
+    std::cout << "Enter player name: ";
+    std::cin >> playerNameInput;
 
-    selectedTeam.addPlayer(newPlayer);
-    players.push_back(*newPlayer);
+    std::cout << "Enter player health: ";
+    std::cin >> playerHealthInput;
+
+    playerClassInput = choosePlayerClass();
+
+    std::unique_ptr<Player> newPlayer = createPlayer(playerNameInput, playerHealthInput, playerClassInput, playerWeapon.get());
+
+    selectedTeam->addPlayer(newPlayer.get());
+    players.push_back(*newPlayer.release());
 }
 
 void handleRemovePlayer(std::vector<Player>& players, Team& direTeam, Team& radiantTeam)
@@ -141,11 +153,12 @@ void handleRemovePlayer(std::vector<Player>& players, Team& direTeam, Team& radi
     std::cin >> choice;
 
     if (choice >= 1 && static_cast<size_t>(choice) <= players.size()) {
-        Player& playerToRemove = players[choice - 1];
-        direTeam.removePlayerFromAllTeams(&playerToRemove);
-        radiantTeam.removePlayerFromAllTeams(&playerToRemove);
+        Player* playerToRemove = &players[choice - 1];
+        direTeam.removePlayer(playerToRemove);
+        radiantTeam.removePlayer(playerToRemove);
 
         players.erase(players.begin() + choice - 1);
+        delete playerToRemove;
         std::cout << "Player removed.\n";
     }
     else {

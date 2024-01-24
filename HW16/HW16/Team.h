@@ -12,9 +12,7 @@ private:
 
 public:
     Team(const std::string& name);
-    void removePlayerFromAllTeams(Player* player);
     bool addPlayer(Player* player);
     bool removePlayer(Player* player);
-    void printPlayersInfo() const;
     void printTeamInfo() const;
 };

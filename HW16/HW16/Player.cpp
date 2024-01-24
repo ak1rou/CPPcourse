@@ -40,11 +40,16 @@ Weapon* Player::getWeapon() const
     return weapon;
 }
 
+void Weapon::printInfo() const
+{
+    std::cout << ", Weapon: " << getName() << ", Damage: " << getDamage() << ", Range: " << getRange();
+}
+
 void Player::printPlayerInfo() const
 {
     std::cout << "Name: " << name << ", Health: " << health << ", Class: " << playerClassToString(playerClass);
     if (weapon != nullptr) {
-        std::cout << ", Weapon: " << weapon->getName() << ", Damage: " << weapon->getDamage() << ", Range: " << weapon->getRange();
+        weapon->printInfo();
     }
     std::cout << std::endl;
 }
@@ -63,4 +68,9 @@ std::string Player::playerClassToString(PlayerClass pc)
     default:
         return "Unknown";
     }
+}
+
+bool Player::operator==(const Player& other) const
+{
+    return false;
 }

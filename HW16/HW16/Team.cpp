@@ -25,25 +25,12 @@ bool Team::addPlayer(Player* p)
     return true;
 }
 
-void Team::removePlayerFromAllTeams(Player* player)
-{
-    auto it = std::find(players.begin(), players.end(), player);
-
-    if (it != players.end())
-    {
-        players.erase(it);
-        delete player;
-        std::cout << "Player removed from the team." << std::endl;
-    }
-}
-
 bool Team::removePlayer(Player* p)
 {
     auto it = std::find(players.begin(), players.end(), p);
 
     if (it != players.end())
     {
-        delete* it;
         players.erase(it);
         std::cout << "Player removed from the team." << std::endl;
         return true;
@@ -52,18 +39,6 @@ bool Team::removePlayer(Player* p)
     {
         std::cerr << "Error: Player is not in the team." << std::endl;
         return false;
-    }
-}
-
-void Team::printPlayersInfo() const
-{
-    std::cout << "Players in team " << teamName << ":\n";
-    for (const Player* player : players)
-    {
-        if (player)
-        {
-            player->printPlayerInfo();
-        }
     }
 }
 

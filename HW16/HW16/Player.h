@@ -22,6 +22,7 @@ public:
     std::string getName() const;
     int getDamage() const;
     int getRange() const;
+    void printInfo() const;
 };
 
 class Player
@@ -39,8 +40,5 @@ public:
     Weapon* getWeapon() const;
     void printPlayerInfo() const;
     static std::string playerClassToString(PlayerClass pc);
-    bool operator==(const Player& other) const
-    {
-        return (this->name == other.name) && (this->health == other.health) && (this->playerClass == other.playerClass);
-    }
+    bool operator==(const Player& other) const;
 };
