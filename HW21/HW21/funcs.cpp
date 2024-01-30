@@ -1,5 +1,4 @@
 #include "funcs.h"
-#include <algorithm>
 
 bool compareByLength(const std::string& str1, const std::string& str2) 
 {
