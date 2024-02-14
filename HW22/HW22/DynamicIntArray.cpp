@@ -3,17 +3,17 @@
 template class DynamicIntArray<int>;
 
 template <typename Type>
-DynamicIntArray<Type>::DynamicIntArray() : array(nullptr), size(0) {}
+DynamicIntArray<Type>::DynamicIntArray() : array(nullptr), size(0), capacity(0) {}
 
 template <typename Type>
-DynamicIntArray<Type>::DynamicIntArray(std::size_t size) : size(size)
+DynamicIntArray<Type>::DynamicIntArray(std::size_t size) : size(size), capacity(size)
 {
     array = new Type[size]();
 }
 
 template <typename Type>
 DynamicIntArray<Type>::DynamicIntArray(const DynamicIntArray<Type>& other)
-    : array(new Type[other.size]), size(other.size)
+    : array(new Type[other.capacity]), size(other.size), capacity(other.capacity)
 {
     std::copy(other.array, other.array + size, array);
 }
@@ -30,8 +30,9 @@ DynamicIntArray<Type>& DynamicIntArray<Type>::operator=(const DynamicIntArray<Ty
     if (this != &other)
     {
         delete[] array;
-        array = new Type[other.size];
+        array = new Type[other.capacity];
         size = other.size;
+        capacity = other.capacity;
         std::copy(other.array, other.array + size, array);
     }
     return *this;
@@ -50,12 +51,15 @@ Type& DynamicIntArray<Type>::operator[](std::size_t index)
 template <typename Type>
 void DynamicIntArray<Type>::setSize(std::size_t newSize)
 {
-    Type* newArray = new Type[newSize]();
-    std::size_t minSize = std::min(size, newSize);
-    std::copy(array, array + minSize, newArray);
-    delete[] array;
-    array = newArray;
-    size = newSize;
+    if (newSize <= capacity)
+    {
+        size = newSize;
+    }
+    else
+    {
+        reserve(newSize);
+        size = newSize;
+    }
 }
 
 template <typename Type>
@@ -70,13 +74,17 @@ void DynamicIntArray<Type>::clear()
     delete[] array;
     array = nullptr;
     size = 0;
+    capacity = 0;
 }
 
 template <typename Type>
 void DynamicIntArray<Type>::push_back(Type element)
 {
-    setSize(size + 1);
-    array[size - 1] = element;
+    if (size >= capacity)
+    {
+        reserve(capacity == 0 ? 1 : capacity * 2);
+    }
+    array[size++] = element;
 }
 
 template <typename Type>
@@ -84,7 +92,7 @@ void DynamicIntArray<Type>::pop_back()
 {
     if (size > 0)
     {
-        setSize(size - 1);
+        --size;
     }
 }
 
@@ -101,30 +109,32 @@ Type DynamicIntArray<Type>::back() const
 template <typename Type>
 void DynamicIntArray<Type>::reserve(std::size_t reservedSpace)
 {
-    if (reservedSpace > size)
+    if (reservedSpace > capacity)
     {
         Type* newArray = new Type[reservedSpace]();
         std::copy(array, array + size, newArray);
         delete[] array;
         array = newArray;
+        capacity = reservedSpace;
     }
 }
 
 template <typename Type>
 std::size_t DynamicIntArray<Type>::getCapacity() const
 {
-    return size;
+    return capacity;
 }
 
 template <typename Type>
 void DynamicIntArray<Type>::shrinkToFit()
 {
-    if (size > 0)
+    if (capacity > size)
     {
         Type* newArray = new Type[size]();
         std::copy(array, array + size, newArray);
         delete[] array;
         array = newArray;
+        capacity = size;
     }
 }
 
@@ -137,4 +147,3 @@ bool DynamicIntArray<Type>::operator==(const DynamicIntArray<Type>& other) const
     }
     return std::equal(array, array + size, other.array);
 }
-
