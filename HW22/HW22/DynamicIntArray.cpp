@@ -72,9 +72,7 @@ template <typename Type>
 void DynamicIntArray<Type>::clear()
 {
     delete[] array;
-    array = nullptr;
     size = 0;
-    capacity = 0;
 }
 
 template <typename Type>
