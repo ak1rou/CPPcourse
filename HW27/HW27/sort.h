@@ -5,5 +5,7 @@
 #include <algorithm>
 #include <chrono>
 #include <iomanip>
+#include <future>
 
-void quickSort(std::vector<int>& arr, int left, int right);
+void quickSortParallel(std::vector<int>& arr, int left, int right, int num_threads);
+void merge(std::vector<int>& arr, int left, int mid, int right);
