@@ -8,4 +8,3 @@
 #include <future>
 
 void quickSortParallel(std::vector<int>& arr, int left, int right, int num_threads);
-void merge(std::vector<int>& arr, int left, int mid, int right);
