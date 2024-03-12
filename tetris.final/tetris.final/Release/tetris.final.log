@@ -1,0 +1,16 @@
+﻿  Game.cpp
+C:\CPPcourse\tetris.final\tetris.final\Game.cpp(24,28): warning C4305: 'initializing': truncation from 'double' to 'float'
+C:\CPPcourse\tetris.final\tetris.final\Game.cpp(24,67): warning C4305: 'initializing': truncation from 'double' to 'float'
+  tetris.final.cpp
+C:\CPPcourse\tetris.final\tetris.final\tetris.final.cpp(56,21): warning C4305: 'initializing': truncation from 'double' to 'float'
+C:\CPPcourse\tetris.final\tetris.final\tetris.final.cpp(58,32): warning C4305: 'initializing': truncation from 'double' to 'float'
+C:\CPPcourse\tetris.final\tetris.final\tetris.final.cpp(228,33): warning C4305: '=': truncation from 'double' to 'float'
+C:\CPPcourse\tetris.final\tetris.final\tetris.final.cpp(394,46): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\CPPcourse\tetris.final\tetris.final\tetris.final.cpp(394,38): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\CPPcourse\tetris.final\tetris.final\tetris.final.cpp(403,52): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\CPPcourse\tetris.final\tetris.final\tetris.final.cpp(403,39): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+  Generating code
+  Previous IPDB and IOBJ mismatch, fall back to full compilation.
+  All 263 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  Finished generating code
+  tetris.final.vcxproj -> C:\CPPcourse\tetris.final\Release\tetris.final.exe
