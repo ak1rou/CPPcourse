@@ -79,7 +79,4 @@ private:
     sf::Sound m_gameOverSound;
     sf::Sound m_backgroundSound;
     sf::Sound m_buffSound;
-
-    std::chrono::steady_clock::time_point m_buffActivationTime;
-    std::chrono::steady_clock::duration m_buffElapsedTime;
 };
